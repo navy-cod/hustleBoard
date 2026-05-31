@@ -4,7 +4,7 @@ const pool = require('../db/pool');
 const listCategories = async (req, res) => {
     try {
         const result = await pool.query(
-            'SELECT id, name, slug FROM categories ORDER BY ASC'
+            'SELECT id, name, slug FROM categories ORDER BY name ASC'
         );
 
         return res.status(200).json({ categories: result.rows });

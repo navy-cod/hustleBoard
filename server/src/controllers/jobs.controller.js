@@ -49,7 +49,7 @@ const getJob = async (req, res) => {
             return res.status(404).json({ message: 'Job not found' });
         }
 
-        return res.status(200).json(result.rows[0]);
+        return res.status(200).json({ job: result.rows[0] });
     } catch (err) {
         console.error('getJob error:', err.message);
         return res.status(500).json({ message: 'Internal server error' });

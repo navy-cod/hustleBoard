@@ -1,6 +1,6 @@
 //Protect routes by verifying JWT tokens
 const jwt = require('jsonwebtoken');
-const { all } = require('../app');
+
 
 const authenticate = (req, res, next) => {
     const authHeader = req.headers['authorization'];
