@@ -1,0 +1,19 @@
+2026-05-31 03:12:04.689 EDT [74092] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1+b1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 15.2.0-14) 15.2.0, 64-bit
+2026-05-31 03:12:04.691 EDT [74092] LOG:  listening on IPv6 address "::1", port 5432
+2026-05-31 03:12:04.691 EDT [74092] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-05-31 03:12:04.743 EDT [74092] FATAL:  could not create lock file "/var/run/postgresql/.s.PGSQL.5432.lock": Permission denied
+2026-05-31 03:12:04.746 EDT [74092] LOG:  database system is shut down
+2026-05-31 03:12:11.899 EDT [74157] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1+b1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 15.2.0-14) 15.2.0, 64-bit
+2026-05-31 03:12:11.899 EDT [74157] LOG:  listening on IPv6 address "::1", port 5432
+2026-05-31 03:12:11.899 EDT [74157] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-05-31 03:12:12.012 EDT [74157] LOG:  listening on Unix socket "/home/klein/Documents/project/hustleBoard/pgdata/.s.PGSQL.5432"
+2026-05-31 03:12:12.127 EDT [74171] LOG:  database system was shut down at 2026-05-31 03:11:57 EDT
+2026-05-31 03:12:12.181 EDT [74157] LOG:  database system is ready to accept connections
+2026-05-31 03:17:12.226 EDT [74169] LOG:  checkpoint starting: time
+2026-05-31 03:18:56.405 EDT [74169] LOG:  checkpoint complete: wrote 1012 buffers (6.2%), wrote 3 SLRU buffers; 1 WAL file(s) added, 0 removed, 0 recycled; write=102.181 s, sync=0.152 s, total=104.180 s; sync files=344, longest=0.038 s, average=0.001 s; distance=4802 kB, estimate=4802 kB; lsn=0/1C14A78, redo lsn=0/1C149E8
+2026-05-31 03:22:12.506 EDT [74169] LOG:  checkpoint starting: time
+2026-05-31 03:22:12.984 EDT [74169] LOG:  checkpoint complete: wrote 2 buffers (0.0%), wrote 0 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.203 s, sync=0.054 s, total=0.479 s; sync files=2, longest=0.054 s, average=0.027 s; distance=3 kB, estimate=4322 kB; lsn=0/1C158F8, redo lsn=0/1C158A0
+2026-05-31 03:27:13.082 EDT [74169] LOG:  checkpoint starting: time
+2026-05-31 03:27:14.350 EDT [74169] LOG:  checkpoint complete: wrote 9 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.926 s, sync=0.175 s, total=1.268 s; sync files=7, longest=0.155 s, average=0.025 s; distance=13 kB, estimate=3891 kB; lsn=0/1C18FD8, redo lsn=0/1C18F48
+2026-05-31 03:32:13.448 EDT [74169] LOG:  checkpoint starting: time
+2026-05-31 03:32:16.544 EDT [74169] LOG:  checkpoint complete: wrote 11 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.656 s, sync=0.622 s, total=3.096 s; sync files=8, longest=0.499 s, average=0.078 s; distance=2 kB, estimate=3502 kB; lsn=0/1C19978, redo lsn=0/1C19920

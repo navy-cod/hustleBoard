@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
 const jobsRoutes = require('./routes/jobs.routes');
 const categoriesRoutes = require('./routes/categories.routes');
+const applicationsRoutes = require('./routes/applications.routes');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/jobs', jobsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
+app.use('/api/v1/applications', applicationsRoutes);
 
 //Health check
 app.get('/health', (req, res) => {
