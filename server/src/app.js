@@ -4,6 +4,7 @@ const authRoutes = require('./routes/auth.routes');
 const jobsRoutes = require('./routes/jobs.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const applicationsRoutes = require('./routes/applications.routes');
+const categoryIndexRoutes = require('./routes/categoryIndex.routes');
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/jobs', jobsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/applications', applicationsRoutes);
-
+app.use('/api/v1/category-index', categoryIndexRoutes);
 //Health check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString()    });

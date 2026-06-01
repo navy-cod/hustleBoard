@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { body, query, param } = require('express-validator');
-const { listJobs, getJob, createJob, updateJob, deleteJob } = require('../controllers/jobs.controller');
+const { listJobs, getJob, createJob, updateJob, deleteJob, getMyJobs } = require('../controllers/jobs.controller');
 const { authenticate, authorize } = require('../middleware/auth');
 const validate = require('../middleware/validate');
 
@@ -77,6 +77,7 @@ const updateJobRules = [
 //Route definitions
     //public
 router.get('/', listJobsRules, validate, listJobs);
+router.get('/mine', authenticate, authorize('employer', 'admin'), getMyJobs);
 router.get('/:id', jobIdRules, validate, getJob);
     //Employer only
 router.post('/', 
