@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { mergeSort, byDateDesc, byDateAsc, byTitleAsc, byTitleDesc, byType } from '../lib/mergeSort';
 import jobsService        from '../services/jobs.service';
 import categoriesService  from '../services/categories.service';
 import JobCard            from '../components/JobCard';
@@ -19,6 +20,15 @@ const JobsPage = () => {
   const [categoryId,  setCategoryId]  = useState('');
   const [type,        setType]        = useState('');
   const [offset,      setOffset]      = useState(0);
+  const [sortKey,    setSortKey]     = useState('date_desc');
+
+  const SORT_FNS = {
+    date_desc: byDateDesc,
+    date_asc:  byDateAsc,
+    title_asc: byTitleAsc,
+    title_desc: byTitleDesc,
+    type:      byType,
+  };
 
   // Load categories once on mount for the filter dropdown
   useEffect(() => {
@@ -73,6 +83,17 @@ const JobsPage = () => {
           onChange={(e) => handleFilterChange(setSearch)(e.target.value)}
           className="flex-1 min-w-48 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
+        <select
+          value={sortKey}
+          onChange={(e) => setSortKey(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="date_desc">Newest first</option>
+          <option value="date_asc">Oldest first</option>
+          <option value="title_asc">Title (A-Z)</option>
+          <option value="title_desc">Title (Z-A)</option>
+          <option value="type">By Type</option>
+        </select>
 
         <select
           value={categoryId}
@@ -118,7 +139,7 @@ const JobsPage = () => {
           <p className="text-center text-gray-400 text-sm py-12">No jobs match your filters.</p>
         ) : (
           <div className="flex flex-col gap-3">
-            {jobs.map((job) => <JobCard key={job.id} job={job} />)}
+            {mergeSort(jobs, SORT_FNS[sortKey]).map((job) => <JobCard key={job.id} job={job} />)}
           </div>
         )}
       </div>

@@ -153,10 +153,31 @@ const deleteJob = async (req, res) => {
     }
 };
 
+//Get employer's own listings
+const getMyJobs = async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT
+                j.id, j.title, j.type, j.location, j.status, j.created_at,
+                c.name AS category_name,
+            FROM jobs j
+            JOIN categories c ON j.category_id = c.id
+            WHERE j.employer_id = $1
+            ORDER BY j.created_at DESC`,
+            [req.user.id]
+        );
+        return res.status(200).json({ jobs: result.rows });
+    } catch (err) {
+        console.error('getMyJobs error:', err.message);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 module.exports = {
     listJobs,
     getJob,
     createJob,
     updateJob,
-    deleteJob
+    deleteJob,
+    getMyJobs
 };
