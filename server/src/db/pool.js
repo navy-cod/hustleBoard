@@ -2,7 +2,14 @@
 const { Pool } = require('pg');
 
 //This pool constructor reads these values from environment variables.
-const pool = new Pool({
+const pool = process.env.DATABASE_URL
+    ? new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: process.env.NODE_ENV === 'production' 
+            ? { rejectUnauthorized: false } 
+            : false,
+    })
+:new Pool({
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME,
@@ -13,7 +20,7 @@ const pool = new Pool({
 //This event fires if a connection in the pool encounter an error while idle (not in the middle of a query).
 //Without this handler, Node.js would crash the entire process on an unhandled error.
 pool.on('error', (err) => {
-    console.error( 'Unexpevted database pool error:', err.message);
+    console.error( 'Unexpected database pool error:', err.message);
     process.exit(1);
 });
 
