@@ -12,6 +12,16 @@ const { buildCategoryIndex } = require('./src/lib/categoryIndex');
 
 const PORT = process.env.PORT || 3000;
 
+const dbConfig = process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL.replace(/:[^:@\/\s]+@/g, ':****@') }
+    : {
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DB_NAME,
+        user: process.env.DB_USER,
+    };
+console.log('Database connection configuration (masked):', JSON.stringify(dbConfig, null, 2));
+
 pool.query('SELECT NOW()')
     .then(async () => {
         console.log('Database connection established');
