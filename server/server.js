@@ -41,6 +41,35 @@ try {
 } catch (e) {
     console.log('pg-connection-string not found directly');
 }
+const url = process.env.DATABASE_URL || '';
+const mappedUrl = url.split('').map(c => {
+    if (/[a-zA-Z]/.test(c)) return 'x';
+    if (/[0-9]/.test(c)) return '0';
+    return c;
+}).join('');
+console.log('Mapped DATABASE_URL structure:', mappedUrl);
+
+let rawParsed = {};
+try {
+    const pgParse = require('pg-connection-string').parse;
+    const parsed = pgParse(url);
+    rawParsed = Object.keys(parsed).reduce((acc, key) => {
+        const val = parsed[key];
+        if (typeof val === 'string') {
+            acc[key] = val.split('').map(c => {
+                if (/[a-zA-Z]/.test(c)) return 'x';
+                if (/[0-9]/.test(c)) return '0';
+                return c;
+            }).join('');
+        } else {
+            acc[key] = val;
+        }
+        return acc;
+    }, {});
+} catch (e) {
+    rawParsed = { error: e.message };
+}
+console.log('Parsed pg-connection-string structure:', JSON.stringify(rawParsed, null, 2));
 console.log('Database connection configuration (masked):', JSON.stringify(dbConfig, null, 2));
 console.log('Parsed pg connection parameters:', JSON.stringify(parsedParams, null, 2));
 
