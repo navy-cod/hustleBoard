@@ -35,6 +35,12 @@ if (process.env.DATABASE_URL) {
         parsedParams = { error: e.message };
     }
 }
+console.log('pg version:', require('pg/package.json').version);
+try {
+    console.log('pg-connection-string version:', require('pg-connection-string/package.json').version);
+} catch (e) {
+    console.log('pg-connection-string not found directly');
+}
 console.log('Database connection configuration (masked):', JSON.stringify(dbConfig, null, 2));
 console.log('Parsed pg connection parameters:', JSON.stringify(parsedParams, null, 2));
 
