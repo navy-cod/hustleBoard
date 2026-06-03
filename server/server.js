@@ -12,66 +12,6 @@ const { buildCategoryIndex } = require('./src/lib/categoryIndex');
 
 const PORT = process.env.PORT || 3000;
 
-const dbConfig = process.env.DATABASE_URL
-    ? { connectionString: process.env.DATABASE_URL.replace(/:[^:@\/\s]+@/g, ':****@') }
-    : {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DB_NAME,
-        user: process.env.DB_USER,
-    };
-const { Client } = require('pg');
-let parsedParams = {};
-if (process.env.DATABASE_URL) {
-    try {
-        const client = new Client({ connectionString: process.env.DATABASE_URL });
-        parsedParams = {
-            host: client.connectionParameters.host,
-            port: client.connectionParameters.port,
-            database: client.connectionParameters.database,
-            user: client.connectionParameters.user,
-        };
-    } catch (e) {
-        parsedParams = { error: e.message };
-    }
-}
-console.log('pg version:', require('pg/package.json').version);
-try {
-    console.log('pg-connection-string version:', require('pg-connection-string/package.json').version);
-} catch (e) {
-    console.log('pg-connection-string not found directly');
-}
-const url = process.env.DATABASE_URL || '';
-const mappedUrl = url.split('').map(c => {
-    if (/[a-zA-Z]/.test(c)) return 'x';
-    if (/[0-9]/.test(c)) return '0';
-    return c;
-}).join('');
-console.log('Mapped DATABASE_URL structure:', mappedUrl);
-
-let rawParsed = {};
-try {
-    const pgParse = require('pg-connection-string').parse;
-    const parsed = pgParse(url);
-    rawParsed = Object.keys(parsed).reduce((acc, key) => {
-        const val = parsed[key];
-        if (typeof val === 'string') {
-            acc[key] = val.split('').map(c => {
-                if (/[a-zA-Z]/.test(c)) return 'x';
-                if (/[0-9]/.test(c)) return '0';
-                return c;
-            }).join('');
-        } else {
-            acc[key] = val;
-        }
-        return acc;
-    }, {});
-} catch (e) {
-    rawParsed = { error: e.message };
-}
-console.log('Parsed pg-connection-string structure:', JSON.stringify(rawParsed, null, 2));
-console.log('Database connection configuration (masked):', JSON.stringify(dbConfig, null, 2));
-console.log('Parsed pg connection parameters:', JSON.stringify(parsedParams, null, 2));
 
 pool.query('SELECT NOW()')
     .then(async () => {
