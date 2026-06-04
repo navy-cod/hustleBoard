@@ -32,40 +32,40 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl border border-gray-200 p-8">
-        <h1 className="text-xl font-bold text-gray-900">Welcome back</h1>
-        <p className="text-sm text-gray-500 mt-1">Log in to your HustleBoard account</p>
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm bg-slate-900 rounded-2xl border border-slate-800 p-8">
+        <h1 className="text-xl font-bold text-white">Welcome back</h1>
+        <p className="text-sm text-slate-400 mt-1">Log in to your HustleBoard account</p>
 
         {error && (
-          <div className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <div className="mt-4 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-3 py-2">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Email</label>
+            <label className="text-sm font-medium text-slate-200 block mb-1">Email</label>
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Password</label>
+            <label className="text-sm font-medium text-slate-200 block mb-1">Password</label>
             <input
               type="password"
               name="password"
               value={form.password}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="••••••••"
             />
           </div>
@@ -79,9 +79,9 @@ const LoginPage = () => {
           </button>
         </form>
 
-        <p className="text-sm text-gray-500 text-center mt-4">
+        <p className="text-sm text-slate-400 text-center mt-4">
           No account?{' '}
-          <Link to="/register" className="text-indigo-600 hover:underline">Sign up</Link>
+          <Link to="/register" className="text-indigo-400 hover:underline">Sign up</Link>
         </p>
       </div>
     </div>

@@ -79,25 +79,25 @@ const NewJobPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-xl mx-auto bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+    <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-sm p-8">
         <div className="mb-6">
-          <Link to="/dashboard/employer" className="text-xs font-semibold text-indigo-600 hover:underline">
+          <Link to="/dashboard/employer" className="text-xs font-semibold text-indigo-400 hover:underline">
             ← Back to Dashboard
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900 mt-2">Post a New Job</h1>
-          <p className="text-sm text-gray-500 mt-1">Reach talented students with details about your listing.</p>
+          <h1 className="text-2xl font-bold text-white mt-2">Post a New Job</h1>
+          <p className="text-sm text-slate-400 mt-1">Reach talented students with details about your listing.</p>
         </div>
 
         {error && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <div className="mb-6 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-3 py-2">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Job Title</label>
+            <label className="text-sm font-medium text-slate-200 block mb-1">Job Title</label>
             <input
               type="text"
               name="title"
@@ -105,21 +105,21 @@ const NewJobPage = () => {
               onChange={handleChange}
               placeholder="e.g. Frontend Engineering Intern"
               required
-              className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                fieldErrors.title ? 'border-red-400' : 'border-gray-300'
+              className={`w-full border rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                fieldErrors.title ? 'border-red-500' : 'border-slate-700'
               }`}
             />
-            {fieldErrors.title && <p className="text-xs text-red-500 mt-1">{fieldErrors.title}</p>}
+            {fieldErrors.title && <p className="text-xs text-red-400 mt-1">{fieldErrors.title}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">Job Type</label>
+              <label className="text-sm font-medium text-slate-200 block mb-1">Job Type</label>
               <select
                 name="type"
                 value={form.type}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="internship">Internship</option>
                 <option value="part-time">Part-time</option>
@@ -129,12 +129,12 @@ const NewJobPage = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 block mb-1">Category</label>
+              <label className="text-sm font-medium text-slate-200 block mb-1">Category</label>
               <select
                 name="category_id"
                 value={form.category_id}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
@@ -146,7 +146,7 @@ const NewJobPage = () => {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Location</label>
+            <label className="text-sm font-medium text-slate-200 block mb-1">Location</label>
             <input
               type="text"
               name="location"
@@ -154,15 +154,15 @@ const NewJobPage = () => {
               onChange={handleChange}
               placeholder="e.g. New York, NY or Remote"
               required
-              className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                fieldErrors.location ? 'border-red-400' : 'border-gray-300'
+              className={`w-full border rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                fieldErrors.location ? 'border-red-500' : 'border-slate-700'
               }`}
             />
-            {fieldErrors.location && <p className="text-xs text-red-500 mt-1">{fieldErrors.location}</p>}
+            {fieldErrors.location && <p className="text-xs text-red-400 mt-1">{fieldErrors.location}</p>}
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">Description</label>
+            <label className="text-sm font-medium text-slate-200 block mb-1">Description</label>
             <textarea
               name="description"
               value={form.description}
@@ -170,17 +170,17 @@ const NewJobPage = () => {
               placeholder="Provide a detailed description of the role, responsibilities, and requirements (minimum 20 characters)..."
               rows={6}
               required
-              className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-                fieldErrors.description ? 'border-red-400' : 'border-gray-300'
+              className={`w-full border rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                fieldErrors.description ? 'border-red-500' : 'border-slate-700'
               }`}
             />
-            {fieldErrors.description && <p className="text-xs text-red-500 mt-1">{fieldErrors.description}</p>}
+            {fieldErrors.description && <p className="text-xs text-red-400 mt-1">{fieldErrors.description}</p>}
           </div>
 
           <div className="flex gap-3 justify-end mt-4">
             <Link
               to="/dashboard/employer"
-              className="text-sm text-gray-600 border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors font-medium"
+              className="text-sm text-slate-400 border border-slate-700 hover:bg-slate-800 px-4 py-2 rounded-lg transition-colors font-medium"
             >
               Cancel
             </Link>
