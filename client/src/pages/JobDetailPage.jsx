@@ -27,61 +27,67 @@ const ApplyModal = ({ job, onClose, onSuccess }) => {
   };
 
   return (
-    // Backdrop — clicking outside the modal closes it
-    <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4"
-      onClick={onClose}
-    >
-      <div
-        className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl"
-        onClick={(e) => e.stopPropagation()}  // prevent backdrop click from firing
-      >
-        <h2 className="text-lg font-bold text-gray-900">Apply — {job.title}</h2>
-        <p className="text-sm text-gray-500 mt-1">{job.employer_name}</p>
+    <>
+      {showModal && (
+        <ApplyModal
+          job={job}
+          onClose={() => setShowModal(false)}
+          onSuccess={handleSuccess}
+        />
+      )}
 
-        {error && (
-          <div className="mt-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-            {error}
-          </div>
-        )}
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4" onClick={onClose}>
+        <div
+          className="bg-slate-900 rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-800"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h2 className="text-lg font-bold text-white">Apply — {job.title}</h2>
+          <p className="text-sm text-slate-400 mt-1">{job.employer_name}</p>
 
-        <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
-          <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">
-              Cover note <span className="text-gray-400 font-normal">(optional, max 1000 characters)</span>
-            </label>
-            <textarea
-              value={coverNote}
-              onChange={(e) => setCoverNote(e.target.value)}
-              maxLength={1000}
-              rows={5}
-              placeholder="Briefly introduce yourself and explain why you're a good fit…"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-            />
-            <p className="text-xs text-gray-400 text-right mt-1">
-              {coverNote.length}/1000
-            </p>
-          </div>
+          {error && (
+            <div className="mt-3 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-3 py-2">
+              {error}
+            </div>
+          )}
 
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 border border-gray-300 text-gray-600 text-sm py-2 rounded-lg hover:border-gray-400 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors"
-            >
-              {loading ? 'Submitting…' : 'Submit application'}
-            </button>
-          </div>
-        </form>
+          <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
+            <div>
+              <label className="text-sm font-medium text-slate-200 block mb-1">
+                Cover note <span className="text-slate-500 font-normal">(optional, max 1000 characters)</span>
+              </label>
+              <textarea
+                value={coverNote}
+                onChange={(e) => setCoverNote(e.target.value)}
+                maxLength={1000}
+                rows={5}
+                placeholder="Briefly introduce yourself and explain why you're a good fit…"
+                className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              />
+              <p className="text-xs text-slate-500 text-right mt-1">
+                {coverNote.length}/1000
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 border border-slate-700 text-slate-300 text-sm py-2 rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors"
+              >
+                {loading ? 'Submitting…' : 'Submit application'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -126,58 +132,60 @@ const JobDetailPage = () => {
         />
       )}
 
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <Link to="/jobs" className="text-sm text-indigo-600 hover:underline">← Back to jobs</Link>
+      <div className="min-h-screen bg-slate-950">
+        <div className="max-w-3xl mx-auto px-4 py-8">
+          <Link to="/jobs" className="text-sm text-indigo-400 hover:underline">← Back to jobs</Link>
 
-        <div className="mt-4 bg-white border border-gray-200 rounded-2xl p-8">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
-              <p className="text-gray-500 mt-1">{job.employer_name}</p>
-            </div>
-            <StatusBadge status={job.status} />
-          </div>
-
-          <div className="flex flex-wrap gap-3 mt-4 text-sm text-gray-500">
-            <span>{job.category_name}</span>
-            <span>·</span>
-            <span>{job.location}</span>
-            <span>·</span>
-            <span className="capitalize">{job.type}</span>
-            <span>·</span>
-            <span>Posted {date}</span>
-          </div>
-
-          <hr className="my-6 border-gray-100" />
-
-          <div className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
-            {job.description}
-          </div>
-
-          <div className="mt-8">
-            {applied ? (
-              <div className="inline-flex items-center gap-2 text-green-700 bg-green-50 border border-green-200 px-4 py-2.5 rounded-lg text-sm">
-                ✓ Application submitted — check your dashboard for updates
+          <div className="mt-4 bg-slate-900 border border-slate-800 rounded-2xl p-8">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-bold text-white">{job.title}</h1>
+                <p className="text-slate-400 mt-1">{job.employer_name}</p>
               </div>
-            ) : !isAuthenticated ? (
-              <Link
-                to="/login"
-                className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors"
-              >
-                Sign in to apply
-              </Link>
-            ) : user.role === 'student' && job.status === 'open' ? (
-              <button
-                onClick={() => setShowModal(true)}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors"
-              >
-                Apply for this role
-              </button>
-            ) : user.role === 'employer' ? (
-              <p className="text-sm text-gray-400">Employers cannot apply to listings.</p>
-            ) : (
-              <p className="text-sm text-gray-400">This listing is currently closed.</p>
-            )}
+              <StatusBadge status={job.status} />
+            </div>
+
+            <div className="flex flex-wrap gap-3 mt-4 text-sm text-slate-400">
+              <span>{job.category_name}</span>
+              <span>·</span>
+              <span>{job.location}</span>
+              <span>·</span>
+              <span className="capitalize">{job.type}</span>
+              <span>·</span>
+              <span>Posted {date}</span>
+            </div>
+
+            <hr className="my-6 border-slate-800" />
+
+            <div className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+              {job.description}
+            </div>
+
+            <div className="mt-8">
+              {applied ? (
+                <div className="inline-flex items-center gap-2 text-green-300 bg-green-900/30 border border-green-800 px-4 py-2.5 rounded-lg text-sm">
+                  ✓ Application submitted — check your dashboard for updates
+                </div>
+              ) : !isAuthenticated ? (
+                <Link
+                  to="/login"
+                  className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors"
+                >
+                  Sign in to apply
+                </Link>
+              ) : user.role === 'student' && job.status === 'open' ? (
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors"
+                >
+                  Apply for this role
+                </button>
+              ) : user.role === 'employer' ? (
+                <p className="text-sm text-slate-400">Employers cannot apply to listings.</p>
+              ) : (
+                <p className="text-sm text-slate-400">This listing is currently closed.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

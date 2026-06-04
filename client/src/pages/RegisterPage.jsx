@@ -5,18 +5,18 @@ import authService           from '../services/auth.service';
 
 const Field = ({ name, label, type = 'text', placeholder, value, onChange, error }) => (
   <div>
-    <label className="text-sm font-medium text-gray-700 block mb-1">{label}</label>
+    <label className="text-sm font-medium text-slate-200 block mb-1">{label}</label>
     <input
       type={type}
       name={name}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className={`w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-        error ? 'border-red-400' : 'border-gray-300'
+      className={`w-full border rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+        error ? 'border-red-500' : 'border-slate-700'
       }`}
     />
-    {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+    {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
   </div>
 );
 
@@ -63,13 +63,13 @@ const RegisterPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl border border-gray-200 p-8">
-        <h1 className="text-xl font-bold text-gray-900">Create your account</h1>
-        <p className="text-sm text-gray-500 mt-1">Join HustleBoard as a student or employer</p>
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm bg-slate-900 rounded-2xl border border-slate-800 p-8">
+        <h1 className="text-xl font-bold text-white">Create your account</h1>
+        <p className="text-sm text-slate-400 mt-1">Join HustleBoard as a student or employer</p>
 
         {apiError && (
-          <div className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <div className="mt-4 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-3 py-2">
             {apiError}
           </div>
         )}
@@ -103,7 +103,7 @@ const RegisterPage = () => {
           />
 
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">I am a…</label>
+            <label className="text-sm font-medium text-slate-200 block mb-1">I am a…</label>
             <div className="grid grid-cols-2 gap-2">
               {['student', 'employer'].map((r) => (
                 <button
@@ -112,8 +112,8 @@ const RegisterPage = () => {
                   onClick={() => setForm((p) => ({ ...p, role: r }))}
                   className={`py-2 text-sm rounded-lg border transition-colors capitalize ${
                     form.role === r
-                      ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-medium'
-                      : 'border-gray-300 text-gray-600 hover:border-gray-400'
+                      ? 'border-indigo-500 bg-indigo-900/30 text-indigo-200 font-medium'
+                      : 'border-slate-700 text-slate-400 hover:border-slate-600'
                   }`}
                 >
                   {r}
@@ -131,9 +131,9 @@ const RegisterPage = () => {
           </button>
         </form>
 
-        <p className="text-sm text-gray-500 text-center mt-4">
+        <p className="text-sm text-slate-400 text-center mt-4">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-600 hover:underline">Sign in</Link>
+          <Link to="/login" className="text-indigo-400 hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

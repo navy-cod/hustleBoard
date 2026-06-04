@@ -27,83 +27,85 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Applications</h1>
-          <p className="text-gray-500 text-sm mt-1">Welcome back, {user.full_name}</p>
+    <div className="min-h-screen bg-slate-950">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-white">My Applications</h1>
+            <p className="text-slate-400 text-sm mt-1">Welcome back, {user.full_name}</p>
+          </div>
+          <Link
+            to="/jobs"
+            className="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            Browse jobs
+          </Link>
         </div>
-        <Link
-          to="/jobs"
-          className="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          Browse jobs
-        </Link>
-      </div>
 
-      {/* Stats row */}
-      <div className="mt-6 grid grid-cols-4 gap-3">
-        {[
-          { label: 'Total',    value: counts.total,    colour: 'text-gray-900'  },
-          { label: 'Pending',  value: counts.pending,  colour: 'text-yellow-600'},
-          { label: 'Accepted', value: counts.accepted, colour: 'text-green-600' },
-          { label: 'Rejected', value: counts.rejected, colour: 'text-red-500'   },
-        ].map(({ label, value, colour }) => (
-          <div key={label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-            <p className={`text-2xl font-bold ${colour}`}>{value}</p>
-            <p className="text-xs text-gray-400 mt-1">{label}</p>
-          </div>
-        ))}
-      </div>
+        {/* Stats row */}
+        <div className="mt-6 grid grid-cols-4 gap-3">
+          {[
+            { label: 'Total',    value: counts.total,    colour: 'text-white'  },
+            { label: 'Pending',  value: counts.pending,  colour: 'text-yellow-400'},
+            { label: 'Accepted', value: counts.accepted, colour: 'text-green-400' },
+            { label: 'Rejected', value: counts.rejected, colour: 'text-red-400'   },
+          ].map(({ label, value, colour }) => (
+            <div key={label} className="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+              <p className={`text-2xl font-bold ${colour}`}>{value}</p>
+              <p className="text-xs text-slate-500 mt-1">{label}</p>
+            </div>
+          ))}
+        </div>
 
-      {/* Applications list */}
-      <div className="mt-8">
-        {loading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <p className="text-sm text-red-500 text-center py-12">{error}</p>
-        ) : applications.length === 0 ? (
-          <div className="text-center py-16 border border-dashed border-gray-200 rounded-xl">
-            <p className="text-gray-400 text-sm">You have not applied to any jobs yet.</p>
-            <Link to="/jobs" className="text-indigo-600 text-sm hover:underline mt-2 inline-block">
-              Browse listings →
-            </Link>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {applications.map((app) => (
-              <div
-                key={app.id}
-                className="bg-white border border-gray-200 rounded-xl p-5"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <Link
-                      to={`/jobs/${app.job_id}`}
-                      className="font-medium text-gray-900 hover:text-indigo-600 transition-colors"
-                    >
-                      {app.job_title}
-                    </Link>
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      {app.employer_name} · {app.location} · <span className="capitalize">{app.type}</span>
-                    </p>
+        {/* Applications list */}
+        <div className="mt-8">
+          {loading ? (
+            <LoadingSpinner />
+          ) : error ? (
+            <p className="text-sm text-red-400 text-center py-12">{error}</p>
+          ) : applications.length === 0 ? (
+            <div className="text-center py-16 border border-dashed border-slate-800 rounded-xl">
+              <p className="text-slate-400 text-sm">You have not applied to any jobs yet.</p>
+              <Link to="/jobs" className="text-indigo-400 text-sm hover:underline mt-2 inline-block">
+                Browse listings →
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {applications.map((app) => (
+                <div
+                  key={app.id}
+                  className="bg-slate-900 border border-slate-800 rounded-xl p-5"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <Link
+                        to={`/jobs/${app.job_id}`}
+                        className="font-medium text-white hover:text-indigo-400 transition-colors"
+                      >
+                        {app.job_title}
+                      </Link>
+                      <p className="text-sm text-slate-400 mt-0.5">
+                        {app.employer_name} · {app.location} · <span className="capitalize">{app.type}</span>
+                      </p>
+                    </div>
+                    <StatusBadge status={app.status} />
                   </div>
-                  <StatusBadge status={app.status} />
-                </div>
-                {app.cover_note && (
-                  <p className="mt-3 text-xs text-gray-400 border-t border-gray-100 pt-3 line-clamp-2">
-                    {app.cover_note}
+                  {app.cover_note && (
+                    <p className="mt-3 text-xs text-slate-500 border-t border-slate-800 pt-3 line-clamp-2">
+                      {app.cover_note}
+                    </p>
+                  )}
+                  <p className="text-xs text-slate-500 mt-2">
+                    Applied {new Date(app.applied_at).toLocaleDateString('en-GB', {
+                      day: 'numeric', month: 'short', year: 'numeric',
+                    })}
                   </p>
-                )}
-                <p className="text-xs text-gray-300 mt-2">
-                  Applied {new Date(app.applied_at).toLocaleDateString('en-GB', {
-                    day: 'numeric', month: 'short', year: 'numeric',
-                  })}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
