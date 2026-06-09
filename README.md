@@ -1,227 +1,101 @@
-!\[CI\](https://github.com/YOUR\_USERNAME/hustleboard/actions/workflows/ci.yml/badge.svg)
+<div align="center">
 
+# HustleBoard
 
-\# HustleBoard
+A full-stack student job board connecting students with internships, part-time roles, and freelance work.
 
+[![CI](https://github.com/navy-cod/hustleBoard/actions/workflows/ci.yml/badge.svg)](https://github.com/navy-cod/hustleBoard/actions/workflows/ci.yml)
+![Node](https://img.shields.io/badge/Node.js-20-339933?logo=node.js&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-4169E1?logo=postgresql&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-A full-stack student job board connecting students with internships, part-time roles, and freelance work. Built as a portfolio project demonstrating production-grade engineering across the full stack.
+**[Live Demo](https://hustle-board-three.vercel.app)** · **[API](https://hustleboard-api.onrender.com/health)**
 
-
-\*\*Live demo:\*\* \[hustleboard.vercel.app\](https://hustleboard.vercel.app)  
-
-\*\*API base URL:\*\* \[hustleboard-api.onrender.com/health\](https://hustleboard-api.onrender.com/health)
-
-
----
-
-
-\#\# Tech stack
-
-
-| Layer | Technology | Purpose |
-
-|---|---|---|
-
-| Frontend | React 18 + Vite | UI — component architecture, routing, state |
-
-| Styling | Tailwind CSS | Utility-first responsive design |
-
-| Backend | Node.js + Express | REST API — routing, middleware, business logic |
-
-| Database | PostgreSQL (Supabase) | Relational data — users, jobs, applications |
-
-| Auth | JWT + bcrypt | Stateless authentication, hashed passwords |
-
-| Deployment | Render (API) + Vercel (UI) | Cloud hosting with auto-deploy from GitHub |
-
-| CI | GitHub Actions | Build and syntax checks on every push |
-
+</div>
 
 ---
 
+## Overview
 
-\#\# Features
+HustleBoard is a role-based job board platform with three user types — **student**, **employer**, and **admin**. Students browse and apply to listings; employers post jobs and manage applicants; all access is enforced server-side via JWT and role middleware.
 
+## Tech Stack
 
-- \*\*Role-based authentication\*\* — student, employer, and admin roles with JWT tokens and bcrypt-hashed passwords
+| Layer      |          Technology          |
+|------------|------------------------------|
+| Frontend   | React 18, Vite, Tailwind CSS |
+| Backend    | Node.js, Express             |
+| Database   | PostgreSQL (Supabase)        |
+| Auth       | JWT, bcrypt                  |
+| Deployment | Render (API) · Vercel (UI)   |
+| CI         | GitHub Actions               |
 
-- \*\*Job board\*\* — browse, search by keyword, filter by category and type, paginate results
+## Features
 
-- \*\*Applications system\*\* — students apply with a cover note, employers accept or reject, students track status
+- JWT authentication with bcrypt password hashing
+- Role-based access control across all API endpoints
+- Job search, filtering by category and type, and pagination
+- Application system with cover notes and status tracking
+- Employer dashboard with inline accept / reject actions
+- Merge sort (O(n log n)) for client-side job sorting
+- In-memory hash map for O(1) category lookups at the server
+- Parameterised queries and IDOR protection throughout
 
-- \*\*Employer dashboard\*\* — post listings, view all applicants per listing, update application statuses inline
+## Getting Started
 
-- \*\*Student dashboard\*\* — track all applications with live status updates and summary statistics
+```bash
+git clone https://github.com/navy-cod/hustleBoard.git
+cd hustleBoard
+cp .env.example .env          # fill in your local DB credentials
+```
 
-- \*\*Data structures\*\* — merge sort (O(n log n)) for client-side job sorting, in-memory hash map for O(1) category lookups
+```bash
+# Run migrations
+psql -U postgres -d hustleboard_dev -f database/migrations/001_create_users.sql
+psql -U postgres -d hustleboard_dev -f database/migrations/002_create_categories.sql
+psql -U postgres -d hustleboard_dev -f database/migrations/003_create_jobs.sql
+psql -U postgres -d hustleboard_dev -f database/migrations/004_create_applications.sql
+```
 
-- \*\*Security\*\* — parameterised SQL queries, IDOR protection, duplicate application prevention at both application and database level
+```bash
+cd server && npm install && npm run dev   # http://localhost:3000
+cd client && npm install && npm run dev  # http://localhost:5173
+```
 
+## API
 
----
+Base URL: `https://hustleboard-api.onrender.com/api/v1`
 
+| Method | Endpoint                   | Auth        |
+|--------|----------------------------|-------------|
+| POST   | `/auth/register`           |     —       |
+| POST   | `/auth/login`              |     —       |
+| GET    | `/jobs`                    |     —       |
+| GET    | `/jobs/:id`                |     —       |
+| POST   | `/jobs`                    | 🔒 employer |
+| PATCH  | `/jobs/:id`                | 🔒 owner    |
+| DELETE | `/jobs/:id`                | 🔒 owner    |
+| POST   | `/applications`            | 🔒 student  |
+| GET    | `/applications/mine`       | 🔒 student  |
+| PATCH  | `/applications/:id/status` | 🔒 employer |
 
-\#\# Architecture
+## Environment Variables
 
+| Variable         | Required in         |
+|------------------|---------------------|
+| `DATABASE_URL`   | Production (Render) |
+| `JWT_SECRET`     | Both                |
+| `JWT_EXPIRES_IN` | Both                |
+| `CLIENT_URL`     | Production (Render) |
+| `VITE_API_URL`   | Production (Vercel) |
 
-\`\`\`
-
-hustleboard/
-
-├── client/                  React frontend (Vite)
-
-│   ├── src/
-
-│   │   ├── components/      Reusable UI components
-
-│   │   ├── context/         AuthContext — global auth state
-
-│   │   ├── lib/             mergeSort.js — DSA implementation
-
-│   │   ├── pages/           Full page components
-
-│   │   └── services/        API call layer (axios)
-
-│
-
-├── server/                  Node.js + Express API
-
-│   ├── src/
-
-│   │   ├── controllers/     HTTP request handlers
-
-│   │   ├── db/              PostgreSQL connection pool
-
-│   │   ├── lib/             categoryIndex.js — hash map DSA
-
-│   │   ├── middleware/       JWT auth, role guard, validation
-
-│   │   ├── routes/          Route definitions
-
-│   │   └── services/        Business logic layer
-
-│
-
-└── database/
-
-    └── migrations/          SQL schema files — version controlled
-
-\`\`\`
-
-
----
-
-
-\#\# API endpoints
-
-
-| 	| 					| 		|   |
-
-|---------- 	|-------					|-------|-------------------------------------- 		    
-
-| ~~***Method ** | ~~***Path ** | ~~***Auth ** | ~~***Description** |
-| - | - | - | - |
-| ~~***POST  ** | ~~***\`/api/v1/auth/register\` ** | ~~*** — ** | ~~***Register a new user** |
-| ~~***POST ** | ~~***\`/api/v1/auth/login\` ** | ~~*** — ** | ~~***Login and receive JWT ** |
-| ~~***GET ** | ~~***\`/api/v1/auth/me\`** | ~~***🔒 any ** | ~~***Get current user profile ** |
-| GET  | \`/api/v1/jobs\` |  | List jobs with search, filter, pagination | |
-| ~~***GET 	** | ~~***\`/api/v1/jobs/:id\` ** |  —  | ~~***Get single job detail ** |
-| ~~***POST ** | ~~***\`/api/v1/jobs\` ** | ~~***🔒 employer ** | ~~***Create a job listing** |
-| ~~***PATCH ** | ~~***\`/api/v1/jobs/:id\` ** | ~~***🔒 owner ** | ~~***Update a listing ** |
-| ~~***DELETE** | ~~***\`/api/v1/jobs/:id\` ** | ~~***🔒 owner ** | ~~***Delete a listing ** |
-| ~~***GET 	** | ~~***\`/api/v1/jobs/mine\`** | ~~***🔒 employer** | ~~***Employer's own listings ** |
-| ~~***GET ** | ~~***\`/api/v1/categories\`** | ~~*** — 	** | ~~***List all categories ** |
-| ~~***GET ** | ~~*** \`/api/v1/category-index/summary\` ** | ~~*** — ** | ~~***Category job counts (hash map)** |
-| ~~***GET ** | ~~***\`/api/v1/category-index/:slug\` ** | ~~*** — ** | ~~***O(1) category lookup ** |
-| ~~***POST** | ~~***\`/api/v1/applications\` ** | ~~***🔒 student** | ~~***Apply to a job** |
-| ~~***GET** | ~~***\`/api/v1/applications/mine\` ** | ~~***🔒 student ** | ~~***Student's applications ** |
-| ~~***GET** | ~~***\`/api/v1/applications/job/:id\` ** | ~~***🔒 employer** | ~~***Applicants for a listing** |
-| ~~***PATCH** | ~~***\`/api/v1/applications/:id/status\` 	** | ~~***🔒 employer** | ~~***Update application status ** |
-
+See `.env.example` for the full list.
 
 ---
 
+<div align="center">
 
-\#\# Data structures
+Built by [navY](https://github.com/navy-cod) · [MIT License](LICENSE)
 
-
-\*\*Merge sort\*\* (\`client/src/lib/mergeSort.js\`) — implemented from scratch with custom comparators for sorting job listings by date, title, and type. O(n log n) guaranteed, stable sort. Applied client-side so reordering costs zero network round-trips.
-
-
-\*\*Hash map — category index\*\* (\`server/src/lib/categoryIndex.js\`) — built on server startup from the categories and jobs tables. Provides O(1) category lookup by slug. Eliminates per-request JOIN queries for category aggregation. Demonstrates the caching principle used by Redis and production CDNs.
-
-
----
-
-
-\#\# Running locally
-
-
-\#\#\# Prerequisites
-
-- Node.js 20+
-
-- PostgreSQL 14+
-
-
-\#\#\# Setup
-
-
-\`\`\`bash
-
-git clone https://github.com/YOUR\_USERNAME/hustleboard.git
-
-cd hustleboard
-
-
-\# Copy and fill in environment variables
-
-cp .env.example .env
-
-\# Edit .env with your local PostgreSQL credentials
-
-
-\# Run database migrations
-
-psql -U postgres -d hustleboard\_dev -f database/migrations/001\_create\_users.sql
-
-psql -U postgres -d hustleboard\_dev -f database/migrations/002\_create\_categories.sql
-
-psql -U postgres -d hustleboard\_dev -f database/migrations/003\_create\_jobs.sql
-
-psql -U postgres -d hustleboard\_dev -f database/migrations/004\_create\_applications.sql
-
-
-\# Start the backend
-
-cd server && npm install && npm run dev
-
-
-\# Start the frontend (new terminal)
-
-cd client && npm install && npm run dev
-
-\`\`\`
-
-
-Frontend: \`http://localhost:5173\`  
-
-Backend: \`http://localhost:3000\`
-
-
----
-
-
-\#\# Engineering decisions
-
-
-\*\*Why JWT over sessions?\*\* JWTs are stateless — the server does not need to store session data in the database. Each token is self-contained and verified cryptographically. This scales horizontally without shared session storage.
-
-
-\*\*Why bcrypt cost factor 12?\*\* SHA-256 can hash billions of passwords per second on modern GPU hardware. bcrypt at cost 12 takes ~250ms per hash, making offline brute-force attacks computationally infeasible on a leaked database.
-
-
-\*\*Why merge sort over Array.prototype.sort?\*\* Merge sort is guaranteed O(n log n) worst case (quicksort degrades to O(n²)). It is stable — equal elements preserve original order. Implementing it from scratch demonstrates deliberate algorithmic choice rather than relying on a black-box built-in.
-
-
-\*\*Why parameterised queries everywhere?\*\* SQL injection is consistently in the OWASP Top 10. Using \`$1, $2\` placeholders in \`pg\` means user input is never interpreted as SQL syntax — the driver handles escaping at the protocol level.
+</div>
