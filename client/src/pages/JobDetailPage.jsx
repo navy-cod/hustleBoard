@@ -27,67 +27,57 @@ const ApplyModal = ({ job, onClose, onSuccess }) => {
   };
 
   return (
-    <>
-      {showModal && (
-        <ApplyModal
-          job={job}
-          onClose={() => setShowModal(false)}
-          onSuccess={handleSuccess}
-        />
-      )}
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4" onClick={onClose}>
+      <div
+        className="bg-slate-900 rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-800"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-lg font-bold text-white">Apply — {job.title}</h2>
+        <p className="text-sm text-slate-400 mt-1">{job.employer_name}</p>
 
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4" onClick={onClose}>
-        <div
-          className="bg-slate-900 rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-800"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h2 className="text-lg font-bold text-white">Apply — {job.title}</h2>
-          <p className="text-sm text-slate-400 mt-1">{job.employer_name}</p>
+        {error && (
+          <div className="mt-3 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-3 py-2">
+            {error}
+          </div>
+        )}
 
-          {error && (
-            <div className="mt-3 text-sm text-red-400 bg-red-950 border border-red-800 rounded-lg px-3 py-2">
-              {error}
-            </div>
-          )}
+        <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
+          <div>
+            <label className="text-sm font-medium text-slate-200 block mb-1">
+              Cover note <span className="text-slate-500 font-normal">(optional, max 1000 characters)</span>
+            </label>
+            <textarea
+              value={coverNote}
+              onChange={(e) => setCoverNote(e.target.value)}
+              maxLength={1000}
+              rows={5}
+              placeholder="Briefly introduce yourself and explain why you're a good fit…"
+              className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            />
+            <p className="text-xs text-slate-500 text-right mt-1">
+              {coverNote.length}/1000
+            </p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
-            <div>
-              <label className="text-sm font-medium text-slate-200 block mb-1">
-                Cover note <span className="text-slate-500 font-normal">(optional, max 1000 characters)</span>
-              </label>
-              <textarea
-                value={coverNote}
-                onChange={(e) => setCoverNote(e.target.value)}
-                maxLength={1000}
-                rows={5}
-                placeholder="Briefly introduce yourself and explain why you're a good fit…"
-                className="w-full border border-slate-700 bg-slate-800 text-white rounded-lg px-3 py-2 text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-              />
-              <p className="text-xs text-slate-500 text-right mt-1">
-                {coverNote.length}/1000
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex-1 border border-slate-700 text-slate-300 text-sm py-2 rounded-lg hover:bg-slate-800 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors"
-              >
-                {loading ? 'Submitting…' : 'Submit application'}
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 border border-slate-700 text-slate-300 text-sm py-2 rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-medium py-2 rounded-lg transition-colors"
+            >
+              {loading ? 'Submitting…' : 'Submit application'}
+            </button>
+          </div>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 

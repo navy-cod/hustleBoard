@@ -17,3 +17,37 @@
 2026-05-31 03:27:14.350 EDT [74169] LOG:  checkpoint complete: wrote 9 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.926 s, sync=0.175 s, total=1.268 s; sync files=7, longest=0.155 s, average=0.025 s; distance=13 kB, estimate=3891 kB; lsn=0/1C18FD8, redo lsn=0/1C18F48
 2026-05-31 03:32:13.448 EDT [74169] LOG:  checkpoint starting: time
 2026-05-31 03:32:16.544 EDT [74169] LOG:  checkpoint complete: wrote 11 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=1.656 s, sync=0.622 s, total=3.096 s; sync files=8, longest=0.499 s, average=0.078 s; distance=2 kB, estimate=3502 kB; lsn=0/1C19978, redo lsn=0/1C19920
+2026-06-14 11:24:42.799 EDT [240963] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1+b1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 15.2.0-14) 15.2.0, 64-bit
+2026-06-14 11:24:42.799 EDT [240963] LOG:  listening on IPv6 address "::1", port 5432
+2026-06-14 11:24:42.799 EDT [240963] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-06-14 11:24:42.838 EDT [240963] FATAL:  could not create lock file "/var/run/postgresql/.s.PGSQL.5432.lock": Permission denied
+2026-06-14 11:24:42.839 EDT [240963] LOG:  database system is shut down
+2026-06-14 11:24:51.363 EDT [241041] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1+b1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 15.2.0-14) 15.2.0, 64-bit
+2026-06-14 11:24:51.364 EDT [241041] LOG:  listening on IPv6 address "::1", port 5432
+2026-06-14 11:24:51.364 EDT [241041] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-06-14 11:24:51.472 EDT [241041] LOG:  listening on Unix socket "/home/klein/Documents/project/hustleBoard/pgdata/.s.PGSQL.5432"
+2026-06-14 11:24:51.645 EDT [241055] LOG:  database system was shut down at 2026-05-31 18:51:23 EDT
+2026-06-14 11:24:51.666 EDT [241055] LOG:  invalid record length at 0/1C19A28: expected at least 24, got 0
+2026-06-14 11:24:51.667 EDT [241055] LOG:  invalid checkpoint record
+2026-06-14 11:24:51.667 EDT [241055] PANIC:  could not locate a valid checkpoint record at 0/1C19A28
+2026-06-14 11:24:51.668 EDT [241041] LOG:  startup process (PID 241055) was terminated by signal 6: Aborted
+2026-06-14 11:24:51.668 EDT [241041] LOG:  aborting startup due to startup process failure
+2026-06-14 11:24:51.669 EDT [241041] LOG:  database system is shut down
+2026-06-14 11:25:56.411 EDT [241604] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1+b1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 15.2.0-14) 15.2.0, 64-bit
+2026-06-14 11:25:56.412 EDT [241604] LOG:  listening on IPv6 address "::1", port 5432
+2026-06-14 11:25:56.412 EDT [241604] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-06-14 11:25:56.521 EDT [241604] LOG:  listening on Unix socket "/home/klein/Documents/project/hustleBoard/pgdata/.s.PGSQL.5432"
+2026-06-14 11:25:56.665 EDT [241618] LOG:  database system was shut down at 2026-06-14 11:25:35 EDT
+2026-06-14 11:25:56.869 EDT [241604] LOG:  database system is ready to accept connections
+2026-06-14 11:26:20.751 EDT [241835] FATAL:  database "klein" does not exist
+2026-06-14 11:30:56.758 EDT [241616] LOG:  checkpoint starting: time
+2026-06-14 11:30:57.933 EDT [241616] LOG:  checkpoint complete: wrote 2 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.305 s, sync=0.062 s, total=1.176 s; sync files=3, longest=0.028 s, average=0.021 s; distance=16 kB, estimate=16 kB; lsn=0/3004158, redo lsn=0/3004100
+2026-06-14 11:35:57.031 EDT [241616] LOG:  checkpoint starting: time
+2026-06-14 11:36:00.363 EDT [241616] LOG:  checkpoint complete: wrote 14 buffers (0.1%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=2.128 s, sync=0.660 s, total=3.332 s; sync files=11, longest=0.572 s, average=0.060 s; distance=2 kB, estimate=14 kB; lsn=0/3004D30, redo lsn=0/3004CD8
+2026-06-14 11:38:01.257 EDT [248057] ERROR:  duplicate key value violates unique constraint "uq_student_job"
+2026-06-14 11:38:01.257 EDT [248057] DETAIL:  Key (student_id, job_id)=(d520f2af-e75c-43e6-97e4-5679b6ddfa94, 4a696b75-f0e0-42dc-bf5b-e17a22f41e31) already exists.
+2026-06-14 11:38:01.257 EDT [248057] STATEMENT:  INSERT INTO applications (student_id, job_id, cover_note)
+	       VALUES ($1, $2, $3)
+	       RETURNING *
+2026-06-14 11:40:57.463 EDT [241616] LOG:  checkpoint starting: time
+2026-06-14 11:40:58.635 EDT [241616] LOG:  checkpoint complete: wrote 2 buffers (0.0%), wrote 1 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.313 s, sync=0.254 s, total=1.173 s; sync files=3, longest=0.146 s, average=0.085 s; distance=0 kB, estimate=13 kB; lsn=0/3005108, redo lsn=0/3005078
