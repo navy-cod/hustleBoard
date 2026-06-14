@@ -4,6 +4,7 @@ import jobsService             from '../services/jobs.service';
 import applicationsService     from '../services/applications.service';
 import StatusBadge             from '../components/StatusBadge';
 import LoadingSpinner          from '../components/LoadingSpinner';
+import JobFormModal            from '../components/JobFormModal';
 
 const EmployerDashboard = () => {
   const { user }   = useAuth();
@@ -14,6 +15,7 @@ const EmployerDashboard = () => {
   const [selectedJobId,   setSelectedJobId]   = useState(null);
   const [applications,    setApplications]    = useState([]);
   const [appsLoading,     setAppsLoading]     = useState(false);
+  const [editingJob,      setEditingJob]      = useState(null);
 
   const fetchMyJobs = useCallback(async () => {
     try {
@@ -74,14 +76,49 @@ const EmployerDashboard = () => {
     }
   };
 
+  const handleDelete = async (jobId) => {
+    const confirmed = window.confirm('Delete this listing permanently? This cannot be undone, and any applications received will also be deleted.');
+    if (!confirmed) return;
+
+    try {
+      await jobsService.remove(jobId);
+      setJobs((prev) => prev.filter((j) => j.id !== jobId));
+
+      if (selectedJobId === jobId) {
+        setSelectedJobId(null);
+        setApplications([]);
+      }
+    } catch {
+      alert('Failed to delete listing.');
+    }
+  };
+
+  const handleFormSuccess = () => {
+    setEditingJob(null);
+    fetchMyJobs();
+  };
+
   return (
     <div className="min-h-screen bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-8">
+        {editingJob && (
+          <JobFormModal
+            job={editingJob === 'new' ? null : editingJob}
+            onClose={() => setEditingJob(null)}
+            onSuccess={handleFormSuccess}
+          />
+        )}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-white">Employer Dashboard</h1>
             <p className="text-slate-400 text-sm mt-1">Welcome, {user.full_name}</p>
           </div>
+          <button
+            onClick={() => setEditingJob('new')}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors"
+          >
+             + Post a job
+          </button>
         </div>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -123,14 +160,28 @@ const EmployerDashboard = () => {
                       <p className="text-xs text-indigo-400">
                         {selectedJobId === job.id ? 'Hide applicants ▲' : 'View applicants ▼'}
                       </p>
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setEditingJob(job); }}
+                          className="text-xs text-slate-500 hover:text-indigo-400 transition-colors"
+                        >
+                          Edit
+                        </button>
                       {job.status === 'open' && (
                         <button
                           onClick={(e) => { e.stopPropagation(); handleCloseJob(job.id); }}
                           className="text-xs text-slate-500 hover:text-red-400 transition-colors"
                         >
-                          Close listing
+                          Close
                         </button>
                       )}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleDelete(job.id); }}
+                        className="text-xs text-slate-500 hover:text-red-400 transition-colors"
+                      >
+                        Delete
+                      </button>
+                      </div>
                     </div>
                   </button>
                 ))}
