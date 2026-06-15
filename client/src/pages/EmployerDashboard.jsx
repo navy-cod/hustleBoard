@@ -19,7 +19,7 @@ const EmployerDashboard = () => {
 
   const fetchMyJobs = useCallback(async () => {
     try {
-      const res = await jobsService.list({ limit: 50 });
+      const res = await jobsService.mine();
       // Use the proper server-filtered endpoint response
       setJobs(res.data.jobs);
     } catch {

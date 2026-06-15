@@ -89,7 +89,6 @@ const updateJob = async (req, res) => {
             'SELECT * FROM jobs WHERE id = $1',
             [req.params.id]
         );
-
         if (!existing.rows[0]) {
             return res.status(404).json({ message: 'Job not found' });
         }
@@ -158,8 +157,9 @@ const getMyJobs = async (req, res) => {
     try {
         const result = await pool.query(
             `SELECT
-                j.id, j.title, j.type, j.location, j.status, j.created_at,
-                c.name AS category_name,
+                j.id, j.title, j.type, j.description,j.location, j.status,
+                j.category_id, j.created_at,
+                c.name AS category_name
             FROM jobs j
             JOIN categories c ON j.category_id = c.id
             WHERE j.employer_id = $1
