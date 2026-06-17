@@ -13,6 +13,7 @@ import JobsPage from './pages/JobsPage';
 import JobDetailPage from './pages/JobDetailPage';
 import StudentDashboard from './pages/StudentDashboard';
 import EmployerDashboard from './pages/EmployerDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import NewJobPage from './pages/NewJobPage';
 
 import './index.css';
@@ -50,6 +51,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <EmployerDashboard />
                 </ProtectedRoute>
               }
+            />
+          <Route
+            path="/dashboard/admin"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminDashboard/>
+              </ProtectedRoute>
+            }
             />
             <Route
               path="/jobs/new"

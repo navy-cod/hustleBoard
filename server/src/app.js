@@ -5,6 +5,7 @@ const jobsRoutes = require('./routes/jobs.routes');
 const categoriesRoutes = require('./routes/categories.routes');
 const applicationsRoutes = require('./routes/applications.routes');
 const categoryIndexRoutes = require('./routes/categoryIndex.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/v1/jobs', jobsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/applications', applicationsRoutes);
 app.use('/api/v1/category-index', categoryIndexRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
 //Health check
 app.get('/health', (req, res) => {

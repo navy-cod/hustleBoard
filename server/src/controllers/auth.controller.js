@@ -68,6 +68,10 @@ const login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
+        if (!user.is_active){
+            return res.status(401).json({ message: 'This account has been suspended. Contact support.' });
+        }
+
         const token = signToken(user.id, user.role);
 
         return res.json({ token, user: sanitizeUser(user) });
