@@ -13,7 +13,7 @@ router.use(authenticate, authorize('admin'));
 router.get('/stats', getStats);
 
 router.get('/users', getUsers);
-router.get('/users/:id/status',
+router.patch('/users/:id/status',
     [
         param('id').isUUID(),
         body('is_active').isBoolean().withMessage('is_active must be true or false'),
