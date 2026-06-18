@@ -19,8 +19,6 @@ const authenticate = (req, res, next) => {
     }
 };
 
-module.exports = { authenticate };
-
 const authorize = (...allowedRoles) => (req, res, next) => {
     if (!allowedRoles.includes(req.user.role)) {
         return res.status(403).json({ 
