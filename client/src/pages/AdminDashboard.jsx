@@ -64,120 +64,122 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
-      <p className="text-gray-500 text-sm mt-1">Signed in as {user.full_name}</p>
+    <div className="min-h-screen bg-slate-950">
+      <div className="max-w-5xl mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
+        <p className="text-slate-400 text-sm mt-1">Signed in as {user.full_name}</p>
 
-      {/* Stats section */}
-      <section className="mt-8">
-        {loading.stats ? (
-          <LoadingSpinner message="Loading stats…" />
-        ) : error.stats ? (
-          <p className="text-sm text-red-500">{error.stats}</p>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label: 'Total users',        value: stats.total_users },
-              { label: 'Total jobs',          value: stats.total_jobs },
-              { label: 'Open jobs',           value: stats.open_jobs },
-              { label: 'Total applications',  value: stats.total_applications },
-            ].map(({ label, value }) => (
-              <div key={label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-                <p className="text-2xl font-bold text-gray-900">{value}</p>
-                <p className="text-xs text-gray-400 mt-1">{label}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* User management section */}
-      <section className="mt-10">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">
-          User management <span className="text-gray-400 font-normal">({users.length})</span>
-        </h2>
-
-        {loading.users ? (
-          <LoadingSpinner message="Loading users…" />
-        ) : error.users ? (
-          <p className="text-sm text-red-500">{error.users}</p>
-        ) : (
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-xs">
-                <tr>
-                  <th className="text-left px-4 py-2.5 font-medium">Name</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Email</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Role</th>
-                  <th className="text-left px-4 py-2.5 font-medium">Status</th>
-                  <th className="text-right px-4 py-2.5 font-medium">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {users.map((u) => (
-                  <tr key={u.id}>
-                    <td className="px-4 py-2.5 text-gray-900">{u.full_name}</td>
-                    <td className="px-4 py-2.5 text-gray-500">{u.email}</td>
-                    <td className="px-4 py-2.5 text-gray-500 capitalize">{u.role}</td>
-                    <td className="px-4 py-2.5">
-                      <StatusBadge status={u.is_active ? 'open' : 'closed'} />
-                      <span className="ml-1.5 text-xs text-gray-400">{u.is_active ? 'active' : 'suspended'}</span>
-                    </td>
-                    <td className="px-4 py-2.5 text-right">
-                      {/* Admins cannot suspend other admins or themselves via this UI */}
-                      {u.role !== 'admin' && (
-                        <button
-                          onClick={() => handleToggleUser(u)}
-                          className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
-                            u.is_active
-                              ? 'border-red-200 text-red-500 hover:bg-red-50'
-                              : 'border-green-300 text-green-600 hover:bg-green-50'
-                          }`}
-                        >
-                          {u.is_active ? 'Suspend' : 'Reactivate'}
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
-
-      {/* Job moderation section */}
-      <section className="mt-10">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">
-          Job moderation <span className="text-gray-400 font-normal">({jobs.length})</span>
-        </h2>
-
-        {loading.jobs ? (
-          <LoadingSpinner message="Loading jobs…" />
-        ) : error.jobs ? (
-          <p className="text-sm text-red-500">{error.jobs}</p>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {jobs.map((job) => (
-              <div key={job.id} className="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 text-sm truncate">{job.title}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    {job.employer_name} ({job.employer_email}) · {job.category_name}
-                  </p>
+        {/* Stats section */}
+        <section className="mt-8">
+          {loading.stats ? (
+            <LoadingSpinner message="Loading stats…" />
+          ) : error.stats ? (
+            <p className="text-sm text-red-500">{error.stats}</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { label: 'Total users',        value: stats.total_users },
+                { label: 'Total jobs',          value: stats.total_jobs },
+                { label: 'Open jobs',           value: stats.open_jobs },
+                { label: 'Total applications',  value: stats.total_applications },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-bold text-white">{value}</p>
+                  <p className="text-xs text-slate-400 mt-1">{label}</p>
                 </div>
-                <StatusBadge status={job.status} />
-                <button
-                  onClick={() => handleDeleteJob(job)}
-                  className="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-500 hover:bg-red-50 transition-colors shrink-0"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* User management section */}
+        <section className="mt-10">
+          <h2 className="text-sm font-semibold text-slate-200 mb-3">
+            User management <span className="text-slate-500 font-normal">({users.length})</span>
+          </h2>
+
+          {loading.users ? (
+            <LoadingSpinner message="Loading users…" />
+          ) : error.users ? (
+            <p className="text-sm text-red-500">{error.users}</p>
+          ) : (
+            <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-800/50 text-slate-400 text-xs">
+                  <tr>
+                    <th className="text-left px-4 py-2.5 font-medium">Name</th>
+                    <th className="text-left px-4 py-2.5 font-medium">Email</th>
+                    <th className="text-left px-4 py-2.5 font-medium">Role</th>
+                    <th className="text-left px-4 py-2.5 font-medium">Status</th>
+                    <th className="text-right px-4 py-2.5 font-medium">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800">
+                  {users.map((u) => (
+                    <tr key={u.id}>
+                      <td className="px-4 py-2.5 text-white">{u.full_name}</td>
+                      <td className="px-4 py-2.5 text-slate-400">{u.email}</td>
+                      <td className="px-4 py-2.5 text-slate-400 capitalize">{u.role}</td>
+                      <td className="px-4 py-2.5">
+                        <StatusBadge status={u.is_active ? 'open' : 'closed'} />
+                        <span className="ml-1.5 text-xs text-slate-500">{u.is_active ? 'active' : 'suspended'}</span>
+                      </td>
+                      <td className="px-4 py-2.5 text-right">
+                        {/* Admins cannot suspend other admins or themselves via this UI */}
+                        {u.role !== 'admin' && (
+                          <button
+                            onClick={() => handleToggleUser(u)}
+                            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                              u.is_active
+                                ? 'border-red-800 text-red-300 hover:bg-red-900/30'
+                                : 'border-green-800 text-green-300 hover:bg-green-900/30'
+                            }`}
+                          >
+                            {u.is_active ? 'Suspend' : 'Reactivate'}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
+        {/* Job moderation section */}
+        <section className="mt-10">
+          <h2 className="text-sm font-semibold text-slate-200 mb-3">
+            Job moderation <span className="text-slate-500 font-normal">({jobs.length})</span>
+          </h2>
+
+          {loading.jobs ? (
+            <LoadingSpinner message="Loading jobs…" />
+          ) : error.jobs ? (
+            <p className="text-sm text-red-500">{error.jobs}</p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {jobs.map((job) => (
+                <div key={job.id} className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex items-center justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-white text-sm truncate">{job.title}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {job.employer_name} ({job.employer_email}) · {job.category_name}
+                    </p>
+                  </div>
+                  <StatusBadge status={job.status} />
+                  <button
+                    onClick={() => handleDeleteJob(job)}
+                    className="text-xs px-3 py-1.5 rounded-lg border border-red-800 text-red-300 hover:bg-red-900/30 transition-colors shrink-0"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 };
