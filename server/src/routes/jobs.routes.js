@@ -90,14 +90,13 @@ router.post('/',
     //Owner or admin only
 router.patch('/:id', 
     authenticate, 
-    authorize('owner', 'admin'),
     jobIdRules,
+    updateJobRules,
     validate, 
     updateJob
 );
 router.delete('/:id', 
     authenticate, 
-    authorize('owner', 'admin'), 
     jobIdRules, 
     validate, 
     deleteJob
