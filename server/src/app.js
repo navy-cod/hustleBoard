@@ -6,6 +6,7 @@ const categoriesRoutes = require('./routes/categories.routes');
 const applicationsRoutes = require('./routes/applications.routes');
 const categoryIndexRoutes = require('./routes/categoryIndex.routes');
 const adminRoutes = require('./routes/admin.routes');
+const { generalLimiter } = require('./middleware/rateLimit');
 
 const app = express();
 
@@ -28,6 +29,8 @@ app.use(cors({
 app.use(express.json());
 
 //Routes
+app.use('/api/v1', generalLimiter);
+
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/jobs', jobsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
